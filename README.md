@@ -141,7 +141,7 @@
 ## We Have To Configure The Connect Function with mapStateToProps. mapStateToProps takes our state object all of the data in the redux store
 ## and we run computations on it to make it show up in our component as props.
 ## The object we return from the mapStateToProps function will show up as props inside of our component. in The component
-## this.props === {songs: state.songs}
+## this.props === {songs: state.songs}, this.props holds the list of songs as an Object.
 
 `import React from 'react';`
 `import {connect} from 'react-redux';`
@@ -149,6 +149,35 @@
 `class SongList extends React.Component {`
 ` render() {`
 `   return`
+` }`
+`}`
+
+`const mapStateToProps = (state) => {`
+` return { songs: state.songs }`
+`}`
+
+`export defult connect(mapStateToProps)(SongList);`
+
+## To render a list of songs in our SongsList component. Using a helper methos called renderList. we just map over the data provided
+## by the redux-store that we created and render the data to the screen.
+
+
+`import React from 'react';`
+`import {connect} from 'react-redux';`
+
+`class SongList extends React.Component {`
+`  renderList() {`
+`   return this.props.songs.map((song) => {`
+`     return (`
+`       <div className="item" key={song.title}>`
+`         {song.title}`
+`       </div>`
+`     )`
+`   });`
+`}`
+
+` render() {`
+`   return <div>{this.renderList()}</div>`
 ` }`
 `}`
 
