@@ -54,3 +54,106 @@
 
 `   return selectedSong;`
 `}`
+
+## Combine These Two Reducers To Make the Redux Store
+
+`import { combineReducers } from 'redux';`
+
+`const songsReducer = () => {`
+`  return [`
+ `     {title: 'No Scrubs', duration: '4:05'} `
+ `      {title: 'Macarena', duration: '2:30'}`
+ `      {title: 'All Star', duration: '3:15'}`
+`    ];`
+`};`
+
+
+`const selectedSongReducer = (selectedSong = null, action) => {`
+` if (action.type === 'SONG_SELECTED') {`
+`   return action.payload;`
+` }`
+
+`   return selectedSong;`
+`}`
+
+`export default combineReducers({`        *the keys in this object is the keys that will show up in our state object*
+` songs: songsReducer,`
+` selectedSong: selectedSongReducer`
+`});`
+
+## In The index.js file in the src directory Pass the Provider to the App and the Redux store to the Provider
+## We pass the createStore our collection of reducers and it gives us a Redux Store which holds our data or state
+
+`import React from 'react';`
+`import ReactDOM from 'react-dom';`
+`import { Provider } from 'react-redux';`
+`import { createStore } from 'redux';`
+
+`import App from './components/App';`
+`import reducers from './reducers/index'`
+
+`ReactDOM.render(`
+` <Provider store={createStore(reducers)}>`
+`  <App />`
+` </Provider>,` 
+`document.querySelector('#root')`
+`)`
+
+## Now any component can get access to the redux store through the provider with connect, Now in SongList.js
+
+`import React from 'react';`
+
+`class SongList extends React.Component {`
+` render() {`
+`   return`
+` }`
+`}`
+
+`export defult SongList;`
+
+## In App.js import the SongList component
+
+`import React from 'react';`
+`import SongList from './SongList';`
+
+`const App = () => {`
+` return (`
+  `<div>`
+`   <SongList />`
+`  </div>`
+`  );`
+`}`
+
+## In the SongList component import the connect component
+
+`import React from 'react';`
+`import {connect} from 'react-redux';`
+
+`class SongList extends React.Component {`
+` render() {`
+`   return`
+` }`
+`}`
+
+`export defult connect()(SongList);`
+
+## Above the connect is basically a function returning a function wraping our SongList which we invoke when wrapping our SongList.
+## We Have To Configure The Connect Function with mapStateToProps. mapStateToProps takes our state object all of the data in the redux store
+## and we run computations on it to make it show up in our component as props.
+## The object we return from the mapStateToProps function will show up as props inside of our component. in The component
+## this.props === {songs: state.songs}
+
+`import React from 'react';`
+`import {connect} from 'react-redux';`
+
+`class SongList extends React.Component {`
+` render() {`
+`   return`
+` }`
+`}`
+
+`const mapStateToProps = (state) => {`
+` return { songs: state.songs }`
+`}`
+
+`export defult connect(mapStateToProps)(SongList);`
